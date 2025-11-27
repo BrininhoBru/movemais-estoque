@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Estoque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "produto_id")
