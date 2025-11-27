@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: MoveMais Estoque
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: test
