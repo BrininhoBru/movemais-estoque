@@ -1,8 +1,10 @@
 package com.movemais_estoque.movemais_estoque.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UsuarioDTO {
     private String nome;
     private String email;
