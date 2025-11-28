@@ -2,6 +2,7 @@ package com.movemais_estoque.movemais_estoque.security.service;
 
 import com.movemais_estoque.movemais_estoque.model.Usuario;
 import com.movemais_estoque.movemais_estoque.repository.UsuarioRepository;
+import com.movemais_estoque.movemais_estoque.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        return (UserDetails) usuarioRepository.findByEmail(email)
+        Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        return new CustomUserDetails(usuario);
     }
 }

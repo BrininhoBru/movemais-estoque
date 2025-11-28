@@ -1,5 +1,5 @@
 INSERT INTO usuario (nome, email, senha)
-VALUES ('Administrador', 'admin@local', '123456');
+VALUES ('Teste Usuario', 'teste@email.com', '$2a$10$iLSBCmppgugO7.z69MheieEaZ1XKxF66DnkQTysl4yOa0DAqucEKC');
 
 INSERT INTO produto (sku, nome, ativo) VALUES
 ('SKU001', 'Camiseta Azul', true),
