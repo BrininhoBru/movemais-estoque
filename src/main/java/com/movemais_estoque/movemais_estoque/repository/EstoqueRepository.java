@@ -14,4 +14,6 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
     boolean existsByProdutoIdAndDepositoId(Long produtoId, Long depositoId);
 
     List<Estoque> findAllByProdutoId(Long produtoId);
+
+    Optional<Estoque> findByProduto_IdAndDeposito_Id(Long id, Long id1);
 }
