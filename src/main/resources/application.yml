@@ -9,6 +9,9 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
 ---
 spring:
   config:
