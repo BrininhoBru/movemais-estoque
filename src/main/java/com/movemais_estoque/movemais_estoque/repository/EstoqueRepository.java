@@ -2,18 +2,11 @@ package com.movemais_estoque.movemais_estoque.repository;
 
 import com.movemais_estoque.movemais_estoque.model.Estoque;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
-public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
+public interface EstoqueRepository extends JpaRepository<Estoque, Long>, JpaSpecificationExecutor<Estoque> {
 
     Optional<Estoque> findByProdutoIdAndDepositoId(Long produtoId, Long depositoId);
-
-    boolean existsByProdutoIdAndDepositoId(Long produtoId, Long depositoId);
-
-    List<Estoque> findAllByProdutoId(Long produtoId);
-
-    Optional<Estoque> findByProduto_IdAndDeposito_Id(Long id, Long id1);
 }

@@ -13,7 +13,7 @@ public class ResponseBuilder {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "created", data));
     }
 
-    public static ResponseEntity<ApiResponse<Void>> error(String message, HttpStatus status) {
+    public static <T> ResponseEntity<ApiResponse<T>> error(String message, HttpStatus status) {
         return ResponseEntity.status(status).body(new ApiResponse<>(false, message, null));
     }
 }
