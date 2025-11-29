@@ -1,18 +1,23 @@
 package com.movemais_estoque.movemais_estoque.service;
 
+import com.movemais_estoque.movemais_estoque.dto.movimento_estoque.MovimentoEstoqueRelatorioRequestDTO;
 import com.movemais_estoque.movemais_estoque.dto.movimento_estoque.MovimentoEstoqueRequestDTO;
 import com.movemais_estoque.movemais_estoque.enums.TipoMovimentoEnum;
 import com.movemais_estoque.movemais_estoque.model.*;
 import com.movemais_estoque.movemais_estoque.repository.*;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MovimentoEstoqueService {
 
-    private final MovimentoEstoqueRepository movimentoRepository;
+    private final MovimentoEstoqueRepository movimentoEstoqueRepository;
     private final EstoqueRepository estoqueRepository;
     private final ProdutoRepository produtoRepository;
     private final DepositoRepository depositoRepository;
@@ -51,7 +56,7 @@ public class MovimentoEstoqueService {
                 .usuarioResponsavel(usuario)
                 .build();
 
-        return movimentoRepository.save(movimento);
+        return movimentoEstoqueRepository.save(movimento);
     }
 
 
@@ -87,6 +92,30 @@ public class MovimentoEstoqueService {
                 .usuarioResponsavel(usuario)
                 .build();
 
-        return movimentoRepository.save(movimento);
+        return movimentoEstoqueRepository.save(movimento);
+    }
+
+    public List<MovimentoEstoque> gerarRelatorio(MovimentoEstoqueRelatorioRequestDTO filtro) {
+        return movimentoEstoqueRepository.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (filtro.getDataInicio() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("dataHoraMovimento"), filtro.getDataInicio()));
+            }
+            if (filtro.getDataFim() != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("dataHoraMovimento"), filtro.getDataFim()));
+            }
+            if (filtro.getTipos() != null && !filtro.getTipos().isEmpty()) {
+                predicates.add(root.get("tipo").in(filtro.getTipos()));
+            }
+            if (filtro.getProdutos() != null && !filtro.getProdutos().isEmpty()) {
+                predicates.add(root.get("produto").get("id").in(filtro.getProdutos()));
+            }
+            if (filtro.getDepositos() != null && !filtro.getDepositos().isEmpty()) {
+                predicates.add(root.get("deposito").get("id").in(filtro.getDepositos()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        });
     }
 }
