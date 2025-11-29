@@ -1,4 +1,4 @@
-package com.movemais_estoque.movemais_estoque.dto;
+package com.movemais_estoque.movemais_estoque.dto.movimento_estoque;
 
 import lombok.Getter;
 import lombok.Setter;
