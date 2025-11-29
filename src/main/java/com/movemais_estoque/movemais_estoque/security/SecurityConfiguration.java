@@ -1,7 +1,7 @@
 package com.movemais_estoque.movemais_estoque.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movemais_estoque.movemais_estoque.response.ApiResponse;
+import com.movemais_estoque.movemais_estoque.response.ApiResponsePattern;
 import com.movemais_estoque.movemais_estoque.security.jwt.JwtFilter;
 import com.movemais_estoque.movemais_estoque.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -41,13 +41,13 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
-                            var body = new ApiResponse<>(false, "Usuário não autenticado", null);
+                            var body = new ApiResponsePattern<>(false, "Usuário não autenticado", null);
                             response.setStatus(HttpStatus.UNAUTHORIZED.value());
                             response.setContentType("application/json");
                             response.getWriter().write(new ObjectMapper().writeValueAsString(body));
                         })
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            var body = new ApiResponse<>(false, "Acesso negado", null);
+                            var body = new ApiResponsePattern<>(false, "Acesso negado", null);
                             response.setStatus(HttpStatus.FORBIDDEN.value());
                             response.setContentType("application/json");
                             response.getWriter().write(new ObjectMapper().writeValueAsString(body));

@@ -1,7 +1,7 @@
 package com.movemais_estoque.movemais_estoque.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movemais_estoque.movemais_estoque.response.ApiResponse;
+import com.movemais_estoque.movemais_estoque.response.ApiResponsePattern;
 import com.movemais_estoque.movemais_estoque.security.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -67,7 +67,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private void sendError(HttpServletResponse response, String message, HttpStatus status) throws IOException {
-        var body = new ApiResponse<>(false, message, null);
+        var body = new ApiResponsePattern<>(false, message, null);
 
         response.setStatus(status.value());
         response.setContentType("application/json");

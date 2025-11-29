@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Profile("dev")
 @Configuration(proxyBeanMethods = false)
-public class DevProfileSecurityConfiguration {
+public class DevProfileSecurityConfig {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)

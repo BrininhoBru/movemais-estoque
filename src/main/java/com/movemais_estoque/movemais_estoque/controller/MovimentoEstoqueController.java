@@ -5,17 +5,24 @@ import com.movemais_estoque.movemais_estoque.dto.movimento_estoque.MovimentoEsto
 import com.movemais_estoque.movemais_estoque.dto.movimento_estoque.MovimentoEstoqueRequestDTO;
 import com.movemais_estoque.movemais_estoque.dto.movimento_estoque.MovimentoEstoqueResponseDTO;
 import com.movemais_estoque.movemais_estoque.model.MovimentoEstoque;
-import com.movemais_estoque.movemais_estoque.response.ApiResponse;
+import com.movemais_estoque.movemais_estoque.response.ApiResponsePattern;
 import com.movemais_estoque.movemais_estoque.response.ResponseBuilder;
 import com.movemais_estoque.movemais_estoque.security.CustomUserDetails;
 import com.movemais_estoque.movemais_estoque.service.MovimentoEstoqueService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -27,8 +34,20 @@ public class MovimentoEstoqueController {
     private final MovimentoEstoqueService movimentoService;
     private final ModelMapper mapper;
 
+    @Operation(
+            summary = "Registrar entrada de estoque",
+            description = "Registra uma entrada de estoque para um produto em um depósito",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Entrada registrada com sucesso",
+                            content = @Content(schema = @Schema(implementation = MovimentoEstoqueResponseDTO.class))
+                    ),
+                    @ApiResponse(responseCode = "400", description = "Dados inválidos")
+            }
+    )
     @PostMapping("/entrada")
-    public ResponseEntity<ApiResponse<MovimentoEstoqueResponseDTO>> registrarEntrada(
+    public ResponseEntity<ApiResponsePattern<MovimentoEstoqueResponseDTO>> registrarEntrada(
             @RequestBody @Valid MovimentoEstoqueRequestDTO dto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -39,8 +58,20 @@ public class MovimentoEstoqueController {
         return ResponseBuilder.created(mapper.map(mov, MovimentoEstoqueResponseDTO.class));
     }
 
+    @Operation(
+            summary = "Registrar saída de estoque",
+            description = "Registra uma saída de estoque para um produto em um depósito",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Saída registrada com sucesso",
+                            content = @Content(schema = @Schema(implementation = MovimentoEstoqueResponseDTO.class))
+                    ),
+                    @ApiResponse(responseCode = "400", description = "Dados inválidos")
+            }
+    )
     @PostMapping("/saida")
-    public ResponseEntity<ApiResponse<MovimentoEstoqueResponseDTO>> registrarSaida(
+    public ResponseEntity<ApiResponsePattern<MovimentoEstoqueResponseDTO>> registrarSaida(
             @RequestBody @Valid MovimentoEstoqueRequestDTO dto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -51,8 +82,19 @@ public class MovimentoEstoqueController {
         return ResponseBuilder.created(mapper.map(mov, MovimentoEstoqueResponseDTO.class));
     }
 
+    @Operation(
+            summary = "Gerar relatório de movimentações",
+            description = "Gera um relatório de movimentações filtrado por datas, tipos, produtos e depósitos",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Relatório gerado com sucesso",
+                            content = @Content(schema = @Schema(implementation = MovimentoEstoqueRelatorioResponseDTO.class))
+                    )
+            }
+    )
     @PostMapping("/relatorio")
-    public ResponseEntity<ApiResponse<List<MovimentoEstoqueRelatorioResponseDTO>>> relatorio(
+    public ResponseEntity<ApiResponsePattern<List<MovimentoEstoqueRelatorioResponseDTO>>> relatorio(
             @RequestBody MovimentoEstoqueRelatorioRequestDTO filtro) {
 
         List<MovimentoEstoque> movimentos = movimentoService.gerarRelatorio(filtro);
