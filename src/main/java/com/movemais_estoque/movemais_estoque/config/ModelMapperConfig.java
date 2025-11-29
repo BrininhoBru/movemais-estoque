@@ -15,7 +15,6 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
 
-        // Converter customizado para MovimentoEstoque -> MovimentoEstoqueResponseDTO
         Converter<MovimentoEstoque, MovimentoEstoqueResponseDTO> movimentoConverter =
                 new Converter<>() {
                     @Override

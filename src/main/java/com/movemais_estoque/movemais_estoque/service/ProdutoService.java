@@ -56,7 +56,7 @@ public class ProdutoService {
 
         produto.setSku(dados.getSku());
         produto.setNome(dados.getNome());
-        produto.setAtivo(dados.isAtivo());
+        produto.setAtivo(dados.getAtivo());
 
         return produtoRepository.save(produto);
     }

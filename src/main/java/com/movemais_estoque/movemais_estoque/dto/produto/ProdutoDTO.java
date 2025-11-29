@@ -1,5 +1,7 @@
 package com.movemais_estoque.movemais_estoque.dto.produto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +9,14 @@ import lombok.Setter;
 @Setter
 public class ProdutoDTO {
     private Long id;
+
+    @NotBlank(message = "SKU é obrigatório")
+    @Size(max = 255, message = "SKU deve ter no máximo 255 caracteres")
     private String sku;
+
+    @NotBlank(message = "Nome é obrigatório")
+    @Size(max = 255, message = "Nome deve ter no máximo 255 caracteres")
     private String nome;
+
     private boolean ativo;
 }

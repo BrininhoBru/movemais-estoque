@@ -9,6 +9,7 @@ import com.movemais_estoque.movemais_estoque.response.ApiResponse;
 import com.movemais_estoque.movemais_estoque.response.ResponseBuilder;
 import com.movemais_estoque.movemais_estoque.security.CustomUserDetails;
 import com.movemais_estoque.movemais_estoque.service.MovimentoEstoqueService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class MovimentoEstoqueController {
 
     @PostMapping("/entrada")
     public ResponseEntity<ApiResponse<MovimentoEstoqueResponseDTO>> registrarEntrada(
-            @RequestBody MovimentoEstoqueRequestDTO dto) {
+            @RequestBody @Valid MovimentoEstoqueRequestDTO dto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -40,7 +41,7 @@ public class MovimentoEstoqueController {
 
     @PostMapping("/saida")
     public ResponseEntity<ApiResponse<MovimentoEstoqueResponseDTO>> registrarSaida(
-            @RequestBody MovimentoEstoqueRequestDTO dto) {
+            @RequestBody @Valid MovimentoEstoqueRequestDTO dto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();

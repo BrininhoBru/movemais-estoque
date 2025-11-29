@@ -20,9 +20,6 @@ public class EstoqueController {
     private final EstoqueService estoqueService;
     private final ModelMapper modelMapper;
 
-    /**
-     * Consultar o saldo de um produto em um depósito específico
-     */
     @GetMapping("/saldo")
     public ResponseEntity<ApiResponse<EstoqueDTO>> consultarSaldo(
             @RequestParam Long produtoId,

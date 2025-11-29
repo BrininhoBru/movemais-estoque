@@ -6,6 +6,7 @@ import com.movemais_estoque.movemais_estoque.model.Produto;
 import com.movemais_estoque.movemais_estoque.response.ApiResponse;
 import com.movemais_estoque.movemais_estoque.response.ResponseBuilder;
 import com.movemais_estoque.movemais_estoque.service.ProdutoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ public class ProdutoController {
     private final ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<ProdutoDTO>> criarProduto(@RequestBody ProdutoDTO request) {
+    public ResponseEntity<ApiResponse<ProdutoDTO>> criarProduto(@RequestBody @Valid ProdutoDTO request) {
         Produto produto = modelMapper.map(request, Produto.class);
         Produto produtoCriado = produtoService.criar(produto);
         return ResponseBuilder.ok(modelMapper.map(produtoCriado, ProdutoDTO.class));
@@ -47,7 +48,7 @@ public class ProdutoController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ProdutoDTO>> atualizar(
             @PathVariable Long id,
-            @RequestBody ProdutoUpdateDTO request) {
+            @RequestBody @Valid ProdutoUpdateDTO request) {
 
         Produto produtoAtualizado = produtoService.atualizar(id, request);
         ProdutoDTO dto = modelMapper.map(produtoAtualizado, ProdutoDTO.class);
