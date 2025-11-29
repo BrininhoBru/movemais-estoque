@@ -61,9 +61,6 @@ public class ProdutoService {
         return produtoRepository.save(produto);
     }
 
-    public void deletar(Long id) {
-        produtoRepository.deleteById(id);
-    }
 
     public Produto inativar(Long id) {
         Produto produto = produtoRepository.findById(id)
